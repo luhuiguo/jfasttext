@@ -1,4 +1,4 @@
-package com.github.jfasttext.config;
+package com.luhuiguo.fasttext.config;
 
 import org.bytedeco.javacpp.annotation.Platform;
 import org.bytedeco.javacpp.annotation.Properties;
@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.tools.InfoMap;
 import org.bytedeco.javacpp.tools.InfoMapper;
 
 // FIXME: During javacpp compiling time
-// [WARNING] Could not load platform properties for class com.github.jfasttext.JFastText
+// [WARNING] Could not load platform properties for class JFastText
 
 /**
  * This configuration file is used for JavaCpp's parser to generate the actual FastTextWrapper.java
@@ -15,7 +15,7 @@ import org.bytedeco.javacpp.tools.InfoMapper;
  *  fasttext_wrapper_javacpp.h includes *.cc files for compiling.
  */
 @Properties(value = @Platform(include = {"fasttext_wrapper.h", "fasttext_wrapper_javacpp.h"}),
-        target = "com.github.jfasttext.FastTextWrapper")
+        target = "com.luhuiguo.fasttext.FastTextWrapper")
 public class FastTextWrapper implements InfoMapper {
     public void map(InfoMap infoMap) {
         infoMap

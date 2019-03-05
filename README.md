@@ -67,7 +67,7 @@ Examples on how to use JFastText can be found at [examples/api](examples/api) an
 ### Initialization
 
 ```java
-import com.github.jfasttext.JFastText;
+import JFastText;
 ...
 JFastText jft = new JFastText();
 ```

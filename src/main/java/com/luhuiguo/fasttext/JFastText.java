@@ -1,4 +1,4 @@
-package com.github.jfasttext;
+package com.luhuiguo.fasttext;
 
 import org.bytedeco.javacpp.PointerPointer;
 

@@ -1,4 +1,4 @@
-package com.github.jfasttext;
+package com.luhuiguo.fasttext;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
