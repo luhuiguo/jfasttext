@@ -23,9 +23,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/luhuiguo/fasttext.git</connection>
-    <developerConnection>scm:git:git@github.com:luhuiguo/fasttext.git</developerConnection>
-    <url>https://github.com/luhuiguo/fasttext</url>
+    <connection>scm:git:https://github.com/luhuiguo/jfasttext.git</connection>
+    <developerConnection>scm:git:git@github.com:luhuiguo/jfasttext.git</developerConnection>
+    <url>https://github.com/luhuiguo/jfasttext</url>
   </scm>
 
   <properties>
