@@ -291,23 +291,12 @@ public class FastTextWrapper extends com.luhuiguo.fasttext.config.FastTextWrappe
         public native void test(@StdString BytePointer arg0, int arg1);
         public native void test(@StdString String arg0, int arg1);
         // TODO: Check if model was loaded
-        public native @Cast("bool") boolean isModelLoaded();
         public native @ByVal StringVector predict(@StdString BytePointer arg0, int arg1);
         public native @ByVal StringVector predict(@StdString String arg0, int arg1);
-        public native @ByVal StringVector predict(@StdString BytePointer arg0, int arg1, @ByVal float arg2);
-        public native @ByVal StringVector predict(@StdString String arg0, int arg1, @ByVal float arg2);
         public native @ByVal FloatStringPairVector predictProba(@StdString BytePointer arg0, int arg1);
         public native @ByVal FloatStringPairVector predictProba(@StdString String arg0, int arg1);
-        public native @ByVal FloatStringPairVector predictProba(@StdString BytePointer arg0, int arg1, @ByVal float arg2);
-        public native @ByVal FloatStringPairVector predictProba(@StdString String arg0, int arg1, @ByVal float arg2);
-        public native @ByVal RealVector getWordVector(@StdString BytePointer arg0);
-        public native @ByVal RealVector getWordVector(@StdString String arg0);
-        public native @ByVal RealVector getSentenceVector(@StdString BytePointer arg0);
-        public native @ByVal RealVector getSentenceVector(@StdString String arg0);
         public native @ByVal RealVector getVector(@StdString BytePointer arg0);
         public native @ByVal RealVector getVector(@StdString String arg0);
-        public native @ByVal RealVector getSubwordVector(@StdString BytePointer arg0);
-        public native @ByVal RealVector getSubwordVector(@StdString String arg0);
         public native @ByVal StringVector getWords();
         public native @ByVal StringVector getLabels();
         public native @StdString BytePointer getWord(int arg0);
@@ -336,7 +325,6 @@ public class FastTextWrapper extends com.luhuiguo.fasttext.config.FastTextWrappe
 
 // #endif
 
-
 // Parsed from fasttext_wrapper_javacpp.h
 
 // Added <numeric> since VS 14.0 complains about missing std::iota
@@ -345,6 +333,7 @@ public class FastTextWrapper extends com.luhuiguo.fasttext.config.FastTextWrappe
 // #include "fastText/src/dictionary.cc"
 // #include "fastText/src/fasttext.cc"
 // #include "fastText/src/matrix.cc"
+// #include "fastText/src/meter.cc"
 // #include "fastText/src/model.cc"
 // #include "fastText/src/productquantizer.cc"
 // #include "fastText/src/qmatrix.cc"
@@ -352,6 +341,5 @@ public class FastTextWrapper extends com.luhuiguo.fasttext.config.FastTextWrappe
 // #include "fastText/src/utils.cc"
 
 // #include "fasttext_wrapper.cc"
-
 
 }

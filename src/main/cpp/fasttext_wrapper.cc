@@ -61,18 +61,8 @@ namespace FastTextWrapper {
         fastText.test(ifs, k);
     }
 
-    bool FastTextApi::isModelLoaded() {
-        return bool(privateMembers->model_);
-    }
-
     std::vector<std::string> FastTextApi::predict(const std::string& text, int32_t k) {
-        return predict(text, k, 0.0);
-    }
-
-    std::vector<std::string> FastTextApi::predict(const std::string& text, int32_t k,
-            fasttext::real threshold) {
-        std::vector<std::pair<fasttext::real,std::string>> predictions = predictProba(
-            text, k, threshold);
+        std::vector<std::pair<real,std::string>> predictions = predictProba(text, k);
         std::vector<std::string> labels;
         for (auto it = predictions.cbegin(); it != predictions.cend(); ++it) {
             labels.push_back(it->second);
@@ -80,40 +70,22 @@ namespace FastTextWrapper {
         return labels;
     }
 
-    std::vector<std::pair<fasttext::real,std::string>> FastTextApi::predictProba(
+    std::vector<std::pair<real,std::string>> FastTextApi::predictProba(
             const std::string& text, int32_t k) {
-        return predictProba(text, k, 0.0);
-    }
-
-    std::vector<std::pair<fasttext::real,std::string>> FastTextApi::predictProba(
-            const std::string& text, int32_t k, fasttext::real threshold) {
-        std::vector<std::pair<fasttext::real,std::string>> predictions;
+        std::vector<std::pair<real,std::string>> predictions;
         std::istringstream in(text);
-        fastText.predict(in, k, predictions, threshold);
+
+        // temporary workaround
+        real th = 0.0;
+
+        fastText.predictLine(in, predictions, k, th);
         return predictions;
     }
 
-    std::vector<fasttext::real> FastTextApi::getWordVector(const std::string& word) {
-        fasttext::Vector vec(getDim());
-        fastText.getWordVector(vec, word);
-        return std::vector<fasttext::real>(vec.data(), vec.data() + vec.size());
-    }
-
-    std::vector<fasttext::real> FastTextApi::getSentenceVector(const std::string& text) {
-        fasttext::Vector vec(getDim());
-        std::istringstream textstream(text);
-        fastText.getSentenceVector(textstream, vec);
-        return std::vector<fasttext::real>(vec.data(), vec.data() + vec.size());
-    }
-
-    std::vector<fasttext::real> FastTextApi::getVector(const std::string& word) {
-        return getWordVector(word);
-    }
-
-    std::vector<fasttext::real> FastTextApi::getSubwordVector(const std::string& subword) {
-        fasttext::Vector vec(getDim());
-        fastText.getSubwordVector(vec, subword);
-        return std::vector<fasttext::real>(vec.data(), vec.data() + vec.size());
+    std::vector<real> FastTextApi::getVector(const std::string& word) {
+        Vector vec(privateMembers->args_->dim);
+        fastText.getVector(vec, word);
+        return std::vector<real>(vec.data(), vec.data() + vec.size());
     }
 
     std::vector<std::string> FastTextApi::getWords() {
@@ -134,60 +106,60 @@ namespace FastTextWrapper {
         return labels;
     }
 
-   int32_t FastTextApi::getNWords() {
-        return fastText.getDictionary()->nwords();
+    int32_t FastTextApi::getNWords() {
+        return privateMembers->dict_->nwords();
     }
 
     std::string FastTextApi::getWord(int32_t i) {
-        return fastText.getDictionary()->getWord(i);
+        return privateMembers->dict_->getWord(i);
     }
 
     int32_t FastTextApi::getNLabels() {
-        return fastText.getDictionary()->nlabels();
+        return privateMembers->dict_->nlabels();
     }
 
     std::string FastTextApi::getLabel(int32_t i) {
-        return fastText.getDictionary()->getLabel(i);
+        return privateMembers->dict_->getLabel(i);
     }
 
     double FastTextApi::getLr() {
-        return fastText.getArgs().lr;
+        return privateMembers->args_->lr;
     }
 
     int FastTextApi::getLrUpdateRate() {
-        return fastText.getArgs().lrUpdateRate;
+        return privateMembers->args_->lrUpdateRate;
     }
 
     int FastTextApi::getDim() {
-        return fastText.getDimension();
+        return privateMembers->args_->dim;
     }
 
     int FastTextApi::getContextWindowSize() {
-        return fastText.getArgs().ws;
+        return privateMembers->args_->ws;
     }
 
     int FastTextApi::getEpoch() {
-        return fastText.getArgs().epoch;
+        return privateMembers->args_->epoch;
     }
 
     int FastTextApi::getMinCount() {
-        return fastText.getArgs().minCount;
+        return privateMembers->args_->minCount;
     }
 
     int FastTextApi::getMinCountLabel() {
-        return fastText.getArgs().minCountLabel;
+        return privateMembers->args_->minCountLabel;
     }
 
     int FastTextApi::getNSampledNegatives() {
-        return fastText.getArgs().neg;
+        return privateMembers->args_->neg;
     }
 
     int FastTextApi::getWordNgrams() {
-        return fastText.getArgs().wordNgrams;
+        return privateMembers->args_->wordNgrams;
     }
 
     std::string FastTextApi::getLossName() {
-        loss_name lossName = fastText.getArgs().loss;
+        loss_name lossName = privateMembers->args_->loss;
         if (lossName == loss_name::ns) {
             return "ns";
         } else if (lossName == loss_name::hs) {
@@ -201,7 +173,7 @@ namespace FastTextWrapper {
     }
 
     std::string FastTextApi::getModelName() {
-        model_name modelName = fastText.getArgs().model;
+        model_name modelName = privateMembers->args_->model;
         if (modelName == model_name::cbow) {
             return "cbow";
         } else if (modelName == model_name::sg) {
@@ -215,26 +187,26 @@ namespace FastTextWrapper {
     }
 
     int FastTextApi::getBucket() {
-        return fastText.getArgs().bucket;
+        return privateMembers->args_->bucket;
     }
 
     int FastTextApi::getMinn() {
-        return fastText.getArgs().minn;
+        return privateMembers->args_->minn;
     }
 
     int FastTextApi::getMaxn() {
-        return fastText.getArgs().maxn;
+        return privateMembers->args_->maxn;
     }
 
     double FastTextApi::getSamplingThreshold() {
-        return fastText.getArgs().t;
+        return privateMembers->args_->t;
     }
 
     std::string FastTextApi::getLabelPrefix() {
-        return fastText.getArgs().label;
+        return privateMembers->args_->label;
     }
 
     std::string FastTextApi::getPretrainedVectorsFileName() {
-        return fastText.getArgs().pretrainedVectors;
+        return privateMembers->args_->pretrainedVectors;
     }
 }
